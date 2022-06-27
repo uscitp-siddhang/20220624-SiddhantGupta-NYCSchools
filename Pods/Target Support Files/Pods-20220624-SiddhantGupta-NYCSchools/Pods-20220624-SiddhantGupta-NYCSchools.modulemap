@@ -1,0 +1,6 @@
+framework module Pods_20220624_SiddhantGupta_NYCSchools {
+  umbrella header "Pods-20220624-SiddhantGupta-NYCSchools-umbrella.h"
+
+  export *
+  module * { export * }
+}
