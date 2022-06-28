@@ -11,7 +11,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBOutlet weak var schoolsTableView: UITableView!
     var spinner = UIActivityIndicatorView(style: .large)
-
+    var isShowingSpinner : Bool = false
+    
+    //MARK: SETUP
     override func viewDidLoad() {
         super.viewDidLoad()
         self.schoolsTableView.delegate = self
@@ -19,9 +21,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.schoolsTableView.separatorStyle = .none
         self.schoolsTableView.estimatedRowHeight = 120
         self.schoolsTableView.register(UINib(nibName: "SchoolInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "SchoolInfoTableViewCell")
-        showAndHideSpinner(showSpinner: true)
         
         //Get Schools info
+        showAndHideSpinner(showSpinner: true)
         SchoolsListManager.sharedManager.reloadSchoolsList { success in
             if(success){
                 self.schoolsTableView.reloadData()
@@ -40,7 +42,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.schoolsTableView.allowsSelection = false
         SATManager.sharedManager.reloadSATList { success in
             if(success){
-               
                 self.schoolsTableView.allowsSelection = true
                 
             }else{
@@ -55,7 +56,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
 
-    //Table View methods
+    //MARK: Table View methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -74,6 +75,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return UITableView.automaticDimension
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let schoolDetailViewController = SchoolDetailViewController(nibName: "SchoolDetailViewController", bundle: Bundle.main)
+        let currentSchool = SchoolsListManager.sharedManager.getSchoolAtIndex(schoolIndex: indexPath.row)
+        let SATScore = SATManager.sharedManager.getSATForDBN(dbn: currentSchool.DBN)
+        self.present(schoolDetailViewController, animated: true, completion: nil)
+        schoolDetailViewController.setupView(with: currentSchool, satScores: SATScore)
+        
+    }
+
+    //MARK: LOADING
     func showAndHideSpinner (showSpinner : Bool){           //Loading indicator for network call
         if(showSpinner){
             self.view.addSubview(spinner)
@@ -86,17 +98,5 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
            
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let myViewController = SchoolDetailViewController(nibName: "SchoolDetailViewController", bundle: Bundle.main)
-        let currentSchool = SchoolsListManager.sharedManager.getSchoolAtIndex(schoolIndex: indexPath.row)
-        let SATScore = SATManager.sharedManager.getSATForDBN(dbn: currentSchool.DBN)
-        print (SATScore.reading)
-        self.present(myViewController, animated: true, completion: nil)
-        myViewController.setupView(withScore: currentSchool, satScores: SATScore)
-
-
-    }
-
 }
 

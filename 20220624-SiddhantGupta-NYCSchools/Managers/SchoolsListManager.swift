@@ -11,7 +11,6 @@ import SwiftyJSON
 import CloudKit
 class SchoolsListManager{
     static let sharedManager = SchoolsListManager()
-    //var schoolsList : Array<JSON>?
     var schoolsList : Array<School> =  []
     
     func reloadSchoolsList(completionHandler :@escaping (Bool) -> Void){
@@ -43,7 +42,7 @@ class SchoolsListManager{
             self.schoolsList.append(school)
         }
     }
-    
+    //MARK: Return methods
     func getSchoolsList() -> Array<School>?{
         return schoolsList
     }

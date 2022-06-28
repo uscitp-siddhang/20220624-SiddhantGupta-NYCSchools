@@ -41,8 +41,7 @@
 
 }
 
--(void)setupViewWithScore : (School*)school SATScores : (SchoolSAT*)SATScores{
-    NSLog(@"%@",SATScores.writing);
+-(void)setupViewWithSchool : (School*)school SATScores : (SchoolSAT*)SATScores{
     self.schoolNameLabel.text = school.schoolName;
     self.addressLabel.text = school.address;
     NSMutableString *locationString = [school.neighborhood mutableCopy];

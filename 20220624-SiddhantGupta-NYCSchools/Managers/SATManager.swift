@@ -48,7 +48,6 @@ class SATManager{
     
 
     func getSATForDBN(dbn : String) -> SchoolSAT{
-        //print(schoolsSATList[dbn]!)
         return schoolsSATList[dbn] ?? SchoolSAT()
     }
 

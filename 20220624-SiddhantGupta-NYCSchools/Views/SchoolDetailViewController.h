@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SchoolDetailViewController : UIViewController
 
--(void)setupViewWithScore : (School*)school SATScores : (SchoolSAT*)SATScores;
+-(void)setupViewWithSchool : (School*)school SATScores : (SchoolSAT*)SATScores;
 
 @end
 
